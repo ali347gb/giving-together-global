@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { Google, Mail, Phone } from 'lucide-react';
+import { Mail, Phone, User as UserIcon } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 interface FormData {
@@ -74,11 +74,13 @@ const LoginForm = () => {
       return;
     }
 
-    // Simulate successful login
+    // Simulate successful login with email, as the User type requires email
+    const phoneNumber = `${formData.countryCode}${formData.phoneNumber}`;
     login({
       id: '2',
       name: "Phone User",
-      phoneNumber: `${formData.countryCode}${formData.phoneNumber}`,
+      email: `phone-user-${phoneNumber}@example.com`, // Add dummy email to satisfy type
+      phoneNumber: phoneNumber,
     });
     
     toast({
@@ -118,7 +120,7 @@ const LoginForm = () => {
           className="w-full mb-4 flex gap-2 items-center justify-center" 
           onClick={handleGoogleLogin}
         >
-          <Google className="h-4 w-4" />
+          <UserIcon className="h-4 w-4" />
           Sign in with Google
         </Button>
 
