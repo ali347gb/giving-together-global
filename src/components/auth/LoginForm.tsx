@@ -1,14 +1,14 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { Mail, Phone, User as UserIcon } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import SocialLoginButton from './SocialLoginButton';
+import EmailLoginForm from './EmailLoginForm';
+import PhoneLoginForm from './PhoneLoginForm';
 
 interface FormData {
   email: string;
@@ -115,14 +115,7 @@ const LoginForm = () => {
         <CardDescription className="text-center">Sign in to continue your journey of giving</CardDescription>
       </CardHeader>
       <CardContent>
-        <Button 
-          variant="outline" 
-          className="w-full mb-4 flex gap-2 items-center justify-center" 
-          onClick={handleGoogleLogin}
-        >
-          <UserIcon className="h-4 w-4" />
-          Sign in with Google
-        </Button>
+        <SocialLoginButton onLogin={handleGoogleLogin} />
 
         <div className="relative mb-4">
           <div className="absolute inset-0 flex items-center">
@@ -146,72 +139,21 @@ const LoginForm = () => {
           </TabsList>
 
           <TabsContent value="email">
-            <form onSubmit={handleEmailLogin}>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="hello@example.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
-                    <a href="#" className="text-sm text-primary hover:underline">
-                      Forgot password?
-                    </a>
-                  </div>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <Button type="submit" className="w-full">Sign In with Email</Button>
-              </div>
-            </form>
+            <EmailLoginForm 
+              email={formData.email}
+              password={formData.password}
+              onChange={handleChange}
+              onSubmit={handleEmailLogin}
+            />
           </TabsContent>
 
           <TabsContent value="phone">
-            <form onSubmit={handlePhoneLogin}>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="phoneNumber">Phone Number</Label>
-                  <div className="flex">
-                    <Input
-                      id="countryCode"
-                      name="countryCode"
-                      type="text"
-                      placeholder="+1"
-                      value={formData.countryCode}
-                      onChange={handleChange}
-                      className="w-20 mr-2"
-                    />
-                    <Input
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      type="tel"
-                      placeholder="555-123-4567"
-                      value={formData.phoneNumber}
-                      onChange={handleChange}
-                      className="flex-1"
-                      required
-                    />
-                  </div>
-                </div>
-                <Button type="submit" className="w-full">Sign In with Phone</Button>
-              </div>
-            </form>
+            <PhoneLoginForm
+              phoneNumber={formData.phoneNumber}
+              countryCode={formData.countryCode}
+              onChange={handleChange}
+              onSubmit={handlePhoneLogin}
+            />
           </TabsContent>
         </Tabs>
       </CardContent>
